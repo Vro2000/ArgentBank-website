@@ -4,7 +4,7 @@ const databaseUrl =
 
 module.exports = async () => {
   try {
-    await mongoose.connect(databaseUrl, { useNewUrlParser: true })
+    await mongoose.connect(databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true }) // ajout de useUnifiedTopology: true pour annuler warning
     console.log('Database successfully connected')
   } catch (error) {
     console.error(`Database Connectivity Error: ${error}`)

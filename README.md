@@ -29,6 +29,12 @@ mongo --version
 1. Run the following commands:
 
 ```bash
+# navigue jusqu'au répertoire express-server
+cd express-server
+
+# utilise la bonne version de node
+nvm use 12.0.0
+
 # Install dependencies
 npm install
 
@@ -59,6 +65,14 @@ Once you run the `populate-db` script, you should have two users in your databas
 - Email: `steve@rogers.com`,
 - Password: `password456`
 
+## Pour lancer mongoDB :
+
+ouvrir une autre instance de terminal
+- taper mongosh
+- taper use argentBankDB
+- taper show collections
+- taper db.users.find().pretty()
+
 ## API Documentation
 
 To learn more about how the API works, once you have started your local environment, you can visit: http://localhost:3001/api-docs
@@ -70,3 +84,14 @@ Static HTML and CSS has been created for most of the site and is located in: `/d
 For some of the dynamic features, like toggling user editing, there is a mock-up for it in `/designs/wireframes/edit-user-name.png`.
 
 And for the API model that you will be proposing for transactitons, the wireframe can be found in `/designs/wireframes/transactions.png`.
+
+
+# react-design
+
+```bash
+## navigue jusqu'au répertoire react-design
+cd react-design
+
+## utilise la bonne version de node
+nvm use 22.5.1
+

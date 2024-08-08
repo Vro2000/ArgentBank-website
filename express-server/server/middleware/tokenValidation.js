@@ -10,10 +10,8 @@ module.exports.validateToken = (req, res, next) => {
     }
 
     const userToken = req.headers.authorization.split('Bearer')[1].trim()
-    const decodedToken = jwt.verify(
-      userToken,
-      process.env.SECRET_KEY || 'default-secret-key'
-    )
+    const decodedToken = jwt.verify(userToken, process.env.SECRET_KEY || 'default-secret-key')
+    //req.user = decodedToken;  // Attache le token décodé à la requête pour utilisation future
     return next()
   } catch (error) {
     console.error('Error in tokenValidation.js', error)
