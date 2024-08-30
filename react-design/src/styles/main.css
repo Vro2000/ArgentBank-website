@@ -13,8 +13,9 @@ body {
   min-height: 100vh;
 }
 
-.main {
-  flex: 1;
+main {
+  min-height: 630px;
+  overflow-y: auto;
 }
 
 .bg-dark {
@@ -71,7 +72,7 @@ body {
 }
 
 .hero {
-  background-image: url('../img/bank-tree.jpeg');
+  background-image: url('/img/bank-tree.webp');
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -200,6 +201,12 @@ body {
 .input-wrapper input {
   padding: 5px;
   font-size: 1.2rem;
+}
+.readonly-input {
+  background-color: #f0f0f0; /* Gris clair */
+  color: #666; /* Couleur du texte */
+  border: 1px solid #ccc;
+  cursor: not-allowed;
 }
 
 .footer {

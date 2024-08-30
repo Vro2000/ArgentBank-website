@@ -11,7 +11,8 @@ Argent Bank uses the following tech stack:
 - [Node.js v12](https://nodejs.org/en/)
 - [MongoDB Community Server](https://www.mongodb.com/try/download/community)
 
-Please make sure you have the right versions and download both packages. You can verify this by using the following commands in your terminal:
+Please make sure you have the right versions and download both packages.
+You can verify this by using the following commands in your terminal:
 
 ```bash
 # Check Node.js version
@@ -28,12 +29,15 @@ mongo --version
 1. Open a terminal window in the cloned project
 1. Run the following commands:
 
+# SERVER
+
 ```bash
 # navigue jusqu'au répertoire express-server
 cd express-server
 
 # utilise la bonne version de node
-nvm use 12.0.0
+nvm use 12.22.12
+node -v
 
 # Install dependencies
 npm install
@@ -46,6 +50,31 @@ npm run populate-db
 ```
 
 Your server should now be running at http://locahost:3001 and you will now have two users in your MongoDB database!
+
+# DESIGN
+
+```bash
+## navigue jusqu'au répertoire react-design
+cd react-design
+
+## utilise la bonne version de node
+nvm use 12.22.12
+node -v
+
+# Start 
+npm start
+```
+Your server should now be running at http://locahost:3000, You can now view react-design in the browser.
+
+# mongoDB : 
+ouvrir une autre instance de terminal
+
+```bash
+mongosh
+use argentBankDB
+show collections
+db.users.find().pretty()
+``` 
 
 ## Populated Database Data
 
@@ -65,14 +94,6 @@ Once you run the `populate-db` script, you should have two users in your databas
 - Email: `steve@rogers.com`,
 - Password: `password456`
 
-## Pour lancer mongoDB :
-
-ouvrir une autre instance de terminal
-- taper mongosh
-- taper use argentBankDB
-- taper show collections
-- taper db.users.find().pretty()
-
 ## API Documentation
 
 To learn more about how the API works, once you have started your local environment, you can visit: http://localhost:3001/api-docs
@@ -86,12 +107,4 @@ For some of the dynamic features, like toggling user editing, there is a mock-up
 And for the API model that you will be proposing for transactitons, the wireframe can be found in `/designs/wireframes/transactions.png`.
 
 
-# react-design
-
-```bash
-## navigue jusqu'au répertoire react-design
-cd react-design
-
-## utilise la bonne version de node
-nvm use 22.5.1
 

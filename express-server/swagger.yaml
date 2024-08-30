@@ -9,6 +9,7 @@ basePath: /api/v1
 schemes:
   - http
 paths:
+  # Endpoint pour la connexion des utilisateurs
   /user/login:
     post:
       tags:
@@ -33,6 +34,8 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+
+  # Endpoint pour l'inscription des utilisateurs
   /user/signup:
     post:
       tags:
@@ -57,6 +60,8 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+
+  # Endpoints pour récupérer et mettre à jour le profil utilisateur
   /user/profile:
     post:
       security:
@@ -65,8 +70,8 @@ paths:
         - User Module
       summary: User Profile API
       description: API for fetching a user profile
-      #produces:
-       # - application/json
+      produces:
+       - application/json
       responses:
         '200':
           description: User profile retrieved successully
@@ -76,6 +81,7 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+    # Endpoint pour mettre à jour le username (devrait plutôt être patch)
     put:
       security:
         - Bearer: []
@@ -101,11 +107,122 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+
+  # Endpoint pour récupérer la liste des comptes
+  /comptes:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Obtenir tous les comptes avec leurs soldes
+      description: API pour récupérer tous les comptes avec leurs soldes pour le mois en cours.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Récupération réussie des comptes.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Compte'
+        '400':
+          description: Requête invalide.
+        '500':
+          description: Erreur interne du serveur
+
+
+  # Endpoint pour récupérer le détail des transactions d'un compte
+  /comptes/{compteId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Récupérer les détails des transactions d'un compte
+      description: API pour récupérer les détails des transactions pour un compte spécifique.
+      parameters:
+          - name: compteId
+            in: path
+            required: true
+            type: string
+            description: Id du compte.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Détails des transactions récupérés avec succès
+          schema:
+            $ref: '#/definitions/TransactionDetail'
+        '400':
+          description: ID du compte invalide.
+        '404':
+          description: Compte non trouvé
+        '500':
+          description: Erreur interne du serveur
+  
+    # Endpoint pour mettre à jour une transaction
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Modifier les informations d'une transaction
+      description: API pour modifier les informations d'une transaction, comme la catégorie ou les notes.
+      parameters:
+        - in: path
+          name: compteId
+          type: string
+          required: true
+          description: "ID du compte auquel appartient la transaction."
+        - in: path
+          name: transactionId
+          type: string
+          required: true
+          description: "ID de la transaction à mettre à jour."
+        - in: body
+          name: transaction
+          description: Objet contenant les détails à mettre à jour
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionUpdate'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction mise à jour avec succès
+        '400':
+          description: Paramètres de requête invalides
+        '404':
+          description: Transaction non trouvée
+        '500':
+          description: Erreur interne du serveur
+
+  # Endpoint pour récupérer la liste des catégories disponibles
+  /categories:
+    get:
+      tags:
+        - Transactions Module
+      summary: Récupérer toutes les catégories
+      description: Retourne une liste des catégories disponibles pour les transactions.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Liste des catégories récupérée avec succès
+          schema:
+            type: array
+            items:
+              type: string
+        '500':
+          description: Erreur interne du serveur
+
 securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
     in: header
+
 definitions:
   User:
     properties:
@@ -124,6 +241,7 @@ definitions:
       userName:
         type: string
         description: user public name
+
   Login:
     properties:
       email:
@@ -132,6 +250,7 @@ definitions:
       password:
         type: string
         description: user password
+
   ApiResponse:
     type: object
     properties:
@@ -146,13 +265,61 @@ definitions:
             type: string
           email:
             type: string
+
   LoginResponse:
     type: object
     properties:
       token:
         type: string
+
   UserProfile:
     type: object
     properties:
       userName:
+        type: string
+
+  Compte:
+    type: object
+    properties:
+      compteId:
+        type: string
+        description: L'identifiant unique du compte.
+      nomCompte:
+        type: string
+        description: Le nom du compte (par exemple, "Argent Bank Checking").
+      soldeDisponible:
+        type: number
+        format: float
+        description: Le solde disponible sur le compte.
+
+  TransactionDetail:
+    type: object
+    properties:
+      id:
+        type: string
+      date:
+        type: string
+        format: date
+      description:
+        type: string
+      amount:
+        type: number
+        format: double
+      balance:
+        type: number
+        format: double
+      transactionType:
+        type: string
+      category:
+        type: string
+      notes:
+        type: string
+
+  TransactionUpdate:
+    type: object
+    properties:
+      category:
+        type: string
+        description: "Catégorie de la transaction récupérée à partir de l'endpoint /categories"
+      notes:
         type: string
